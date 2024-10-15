@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 12:55:33 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/15 21:02:20 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/15 21:19:49 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,8 +63,9 @@ def get_table_data(filename):
     return elements
 
 def generate_element_td(element):
+    class_name = get_class_name()
     return f"""
-        <td>
+        <td class = {class_name}>
             <h4>{element['name']}</h4>
             <ul>
                 <li>Number: {element['number']}</li>
@@ -88,8 +89,7 @@ def generate_unknown_element_td(number):
     """
 
 def generate_html(elements):
-    html = """
-    <!DOCTYPE html>
+    html = """<!DOCTYPE html>
     <html lang="en">
     <head>
     <meta charset="UTF-8">
@@ -115,8 +115,8 @@ def generate_html(elements):
         ul {
             list-style-type: disc;
         }
-        ol {
-            list-style-type: upper-roman;
+        .Hydrogen {
+            background-color: lightblue;
         }
     </style>
     </head>
