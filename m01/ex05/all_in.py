@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 12:21:15 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/15 13:04:29 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/15 15:54:31 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ def print_info(expresion):
         "CO": "Denver"
     }
 
-    #asuming that all City and State names are capitalized in the dictionary
+    # asuming that all City and State names are capitalized in the dictionary
 
     if expresion.title() in states:
         print(f"{capital_cities[states[expresion.title()]]} is the capital of {expresion.title()}", end="\r\n")
