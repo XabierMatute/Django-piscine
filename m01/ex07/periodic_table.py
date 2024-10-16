@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 12:55:33 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/15 21:19:49 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/16 13:13:05 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,27 +63,24 @@ def get_table_data(filename):
     return elements
 
 def generate_element_td(element):
-    class_name = get_class_name()
+    class_name = 'element'
     return f"""
         <td class = {class_name}>
             <h4>{element['name']}</h4>
             <ul>
-                <li>Number: {element['number']}</li>
-                <li>Symbol: {element['small']}</li>
-                <li>Atomic Mass: {element['molar']}</li>
-                <li>Electron: {element['electron']}</li>
+                <li>{element['number']}</li>
+                <li>{element['small']}</li>
+                <li>{element['molar']}</li>
             </ul>
         </td>
     """
         
 def generate_unknown_element_td(number):
     return f"""
-        <td>
+        <td class = unknown>
             <h4>Unknown Element</h4>
             <ul>
-                <li>Number: {number}</li>
-                <li>Symbol: ??</li>
-                <li>Atomic Mass: ??</li>
+                <li>{number}</li>
             </ul>
         </td>
     """
@@ -108,16 +105,34 @@ def generate_html(elements):
             border-color: #004200;
         }
         th, td {
-            border: 1px solid #b32fff;
-            padding: 2px;
-            text-align: left;
+            text-align: center;
         }
         ul {
-            list-style-type: disc;
+            list-style-type: none;
+            text-align: left;
         }
-        .Hydrogen {
+        th {
+            border: 2px solid #000000;
+            padding: 2px;
+            background-color: white;
+        }
+        .element {
+            border: 1px solid #003333;
             background-color: lightblue;
         }
+        .unknown {
+            border: 1px solid #003333;
+            background-color: #77ccff;
+        }
+        .Actinides {
+            border: 1px solid #003333;
+            background-color: #ffcc00;
+        }
+        .Lanthanides {
+            border: 1px solid #003333;
+            background-color: #ccff00;
+        }
+        
     </style>
     </head>
     <body>
@@ -142,14 +157,14 @@ def generate_html(elements):
 
     for period in range(1, 8):
         html += "<tr>"
-        html += f"<td>Period {period}</td>"
+        html += f"<th>Period {period}</th>"
         
         for group in range(1, 19):
             if get_atomic_number(period, group) == 'A':
-                html += "<td><h4>Actinides</h4></td>"
+                html += "<td class = Actinides><h4>Actinides</h4></td>"
                 continue
             elif get_atomic_number(period, group) == 'L':
-                html += "<td><h4>Lanthanides</h4></td>"
+                html += "<td class = Lanthanides><h4>Lanthanides</h4></td>"
                 continue
             elif get_atomic_number(period, group) == 'x':
                 html += "<td></td>"
@@ -160,13 +175,20 @@ def generate_html(elements):
             elif get_atomic_number(period, group) in elements:
                 html += generate_element_td(elements[get_atomic_number(period, group)])
             elif isinstance(get_atomic_number(period, group), int):
-                html += generate_unknown_element_td(get_atomic_number(period, group))
-            
-
-            
+                html += generate_unknown_element_td(get_atomic_number(period, group))            
         html += "</tr>"
 
-    
+    html += f"""
+    <th></th>
+    """
+
+    for group in range(1, 19):
+        html += f"""
+            <th>Group {group}</th>
+        """
+    html += """
+        </tr>
+    """
     
     html += """
     </table>
