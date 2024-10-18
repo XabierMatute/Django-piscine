@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 20:22:42 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/14 20:37:40 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/18 12:03:20 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,11 @@ def my_var():
     integer = 42
     print_varinfo(integer)
 
-    string = "quarante-deu"
+    string = "42"
     print_varinfo(string)
+
+    jeje = "quarante-deux"
+    print_varinfo(jeje)
 
     floatingpoint = 42.
     print_varinfo(floatingpoint)
