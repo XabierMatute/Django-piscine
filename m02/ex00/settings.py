@@ -1,0 +1,8 @@
+name = "Paquita"
+surname = "Salas"
+skill1 = "Resiliencia"
+skill2 = "Capacidad para conectar con la gente"
+skill3 = "Improvisación y adaptación"
+army = "Legión Española (Tercio de extranjeros)"
+db_position = "Directora de la agencia de representación de asesinos"
+ciudad = "Soria"

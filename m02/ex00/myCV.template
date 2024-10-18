@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Resume</title>
+    <style>
+        body {
+            font-family: 'Pacifico', cursive;
+            margin: 1px;
+            background-color: #f0e0c4;
+        }
+        h1 {
+            color: #5e2020;
+        }
+        table {
+            width: 99%;
+            border-collapse: collapse;
+            border-style: solid;
+            border-color: #aa11bb;
+        }
+        ul {
+            list-style-type: disc;
+        }
+        ol {
+            list-style-type: upper-roman;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Curriculum Vitae​​​</h1>
+    <h2>Name: {name}</h2>
+    <h2>Surname: {surname}</h2>
+    <h2>Skills</h2>
+    <ul>
+        <li>{skill1}</li>
+        <li>{skill2}</li>
+        <li>{skill3}</li>
+    </ul>
+
+    <h2>Career Path</h2>
+    <table>
+        <tr>
+            <th>Year (of the 4th era)</th>
+            <th>Company</th>
+            <th>Position</th>
+        </tr>
+        <tr style="background-color: #efb810;">
+            <td>201</td>
+            <td>{army}</td>
+            <td>Soldier</td>
+        </tr>
+        <tr style="background-color: #9C0001;">
+            <td>203</td>
+            <td>the Dark Brotherhood</td>
+            <td>{db_position}</td>
+        </tr>
+        <tr style="background-color: #7fcedc;">
+            <td>205</td>
+            <td>College of {ciudad}</td>
+            <td style="border: solid #424242;">Arch-Mage</td>
+        </tr>
+    </table>
+
+    <h2>Education</h2>
+    <ol>
+        <li>Bachelor's Degree in Arcane Science</li>
+        <li>Master's Degree in Alchemical Technology</li>
+        <li>Diploma in Dwemer History</li>
+        <li>Certification in Thu'um</li>
+    </ol>
+</body>
+</html>
