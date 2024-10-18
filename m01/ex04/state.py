@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 11:46:54 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/15 12:21:52 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/18 12:08:20 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,14 @@ def get_state(city):
     for state, capital in capital_cities.items():
         if capital == city:
             st = state
+            break
     if not st:
         print("Unknown capital city")
         return
     for state, code in states.items():
         if code == st:
             print(state)
-            return
-    # print("Unknown capital city")    
+            return 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

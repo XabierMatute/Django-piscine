@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 11:38:57 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/15 15:49:19 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/18 12:07:59 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ def get_capital_city(state):
         "CO": "Denver"
     }
 
-    if state in states : #and states[state] in capital_cities
+    if state in states :
         print(capital_cities[states[state]])
     else:
         print("Unknown state")

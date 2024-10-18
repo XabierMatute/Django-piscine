@@ -6,7 +6,7 @@
 #    By: xmatute- <xmatute-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/15 12:55:33 by xmatute-          #+#    #+#              #
-#    Updated: 2024/10/16 13:13:05 by xmatute-         ###   ########.fr        #
+#    Updated: 2024/10/18 12:16:16 by xmatute-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,7 +144,7 @@ def generate_html(elements):
     """
 
     html += f"""
-        <th></th>
+            <th></th>
     """
 
     for group in range(1, 19):
@@ -161,10 +161,10 @@ def generate_html(elements):
         
         for group in range(1, 19):
             if get_atomic_number(period, group) == 'A':
-                html += "<td class = Actinides><h4>Actinides</h4></td>"
+                html += "<td class = Actinides><h4></h4></td>"
                 continue
             elif get_atomic_number(period, group) == 'L':
-                html += "<td class = Lanthanides><h4>Lanthanides</h4></td>"
+                html += "<td class = Lanthanides><h4></h4></td>"
                 continue
             elif get_atomic_number(period, group) == 'x':
                 html += "<td></td>"
@@ -177,18 +177,6 @@ def generate_html(elements):
             elif isinstance(get_atomic_number(period, group), int):
                 html += generate_unknown_element_td(get_atomic_number(period, group))            
         html += "</tr>"
-
-    html += f"""
-    <th></th>
-    """
-
-    for group in range(1, 19):
-        html += f"""
-            <th>Group {group}</th>
-        """
-    html += """
-        </tr>
-    """
     
     html += """
     </table>
