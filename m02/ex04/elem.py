@@ -107,5 +107,22 @@ class Elem:
                                                 for elem in content])))
 
 
+def main():
+    """
+    Just a main function to test this class.
+    """
+    html = Elem(tag='html', content=[
+        Elem(tag='head', content=[
+            Elem(tag='title', content=Text('"Hello ground!"'))
+        ]),
+        Elem(tag='body', content=[
+            Elem(tag='h1', content=Text('"Oh no, not again!"')),
+            Elem(tag='img', attr={'src': 'http://i.imgur.com/pfp3T.jpg'}, tag_type='simple')
+        ])
+    ])
+    print(html)
+    # with open('elem.html', 'w') as f:
+    #     f.write(str(html))
+
 if __name__ == '__main__':
-    [...]
+    main()
