@@ -66,7 +66,7 @@ def generate_element_td(element):
     class_name = 'element'
     return f"""
         <td class = {class_name}>
-            <h4>{element['name']}</h4>
+            <h2>{element['name']}</h2>
             <ul>
                 <li>{element['number']}</li>
                 <li>{element['small']}</li>
@@ -78,7 +78,7 @@ def generate_element_td(element):
 def generate_unknown_element_td(number):
     return f"""
         <td class = unknown>
-            <h4>Unknown Element</h4>
+            <h2>Unknown Element</h2>
             <ul>
                 <li>{number}</li>
             </ul>
@@ -161,10 +161,10 @@ def generate_html(elements):
         
         for group in range(1, 19):
             if get_atomic_number(period, group) == 'A':
-                html += "<td class = Actinides><h4></h4></td>"
+                html += "<td class = Actinides></td>"
                 continue
             elif get_atomic_number(period, group) == 'L':
-                html += "<td class = Lanthanides><h4></h4></td>"
+                html += "<td class = Lanthanides></td>"
                 continue
             elif get_atomic_number(period, group) == 'x':
                 html += "<td></td>"
