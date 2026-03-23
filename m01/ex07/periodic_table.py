@@ -66,7 +66,7 @@ def generate_element_td(element):
     class_name = 'element'
     return f"""
         <td class = {class_name}>
-            <h2>{element['name']}</h2>
+            <h4>{element['name']}</h4>
             <ul>
                 <li>{element['number']}</li>
                 <li>{element['small']}</li>
@@ -78,7 +78,7 @@ def generate_element_td(element):
 def generate_unknown_element_td(number):
     return f"""
         <td class = unknown>
-            <h2>Unknown Element</h2>
+            <h4>Unknown Element</h4>
             <ul>
                 <li>{number}</li>
             </ul>
@@ -138,6 +138,8 @@ def generate_html(elements):
     <body>
 
         <h1>The Periodic Table​</h1>
+        <h2>Of Elements​</h2>
+        <h3>(created by Dmitri Mendeleev)​</h3>
         <table>
         <tr>
         
