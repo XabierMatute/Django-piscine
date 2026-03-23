@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex00: Markdown Cheatsheet.</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f9f9f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 40px 20px; background: var(--bg); }
+        h1 { text-align: center; color: var(--primary); border-bottom: 4px solid var(--primary); padding-bottom: 10px; margin-bottom: 40px; }
+        h2 { color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px; margin-top: 30px; background: #fff; padding-top: 5px; padding-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--primary); color: white; }
+        code { background-color: #eee; padding: 3px 6px; border-radius: 4px; font-family: 'Cascadia Code', Consolas, monospace; color: #c7254e; font-size: 0.9em; }
+        pre { background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <h1>Ex00: Markdown Cheatsheet.</h1>
+
+    <section>
+        <h2>1. Encabezados (Headers)</h2>
+        <table>
+            <tr><th>Markdown</th><th>Resultado (HTML)</th></tr>
+            <tr><td><code># H1</code></td><td><h1>Título 1</h1></td></tr>
+            <tr><td><code>## H2</code></td><td><h2>Título 2</h2></td></tr>
+            <tr><td><code>### H3</code></td><td><h3>Título 3</h3></td></tr>
+            <tr><td><code>#### H4</code></td><td><h4>Título 4</h4></td></tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>2. Énfasis de Texto</h2>
+        <p>
+            <code>**Negrita**</code> → <strong>Negrita</strong><br>
+            <code>*Cursiva*</code> o <code>_Cursiva_</code> → <em>Cursiva</em><br>
+            <code>***Negrita y Cursiva***</code> → <strong><em>Ambas</em></strong><br>
+            <code>~~Tachado~~</code> → <del>Tachado</del>
+        </p>
+    </section>
+
+    <section>
+        <h2>3. Listas</h2>
+        <div class="grid">
+            <div>
+                <strong>Desordenadas:</strong>
+                <pre>- Elemento 1<br>- Elemento 2<br>  - Sub-elemento</pre>
+            </div>
+            <div>
+                <strong>Ordenadas:</strong>
+                <pre>1. Primero<br>2. Segundo<br>3. Tercero</pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Enlaces e Imágenes</h2>
+        <table>
+            <tr><th>Tipo</th><th>Sintaxis</th></tr>
+            <tr><td>Enlace</td><td><code>[Texto](https://url.com)</code></td></tr>
+            <tr><td>Imagen</td><td><code>![Alt text](url_imagen.jpg)</code></td></tr>
+            <tr><td>Referencia</td><td><code>[Texto][id] ... [id]: url</code></td></tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>5. Bloques de Código</h2>
+        <p>Código en línea: <code>`print("hola")`</code></p>
+        <p>Bloque de código (con lenguaje para resaltado):</p>
+        <pre>```python<br>def saludo():<br>    print("Hola Mundo")<br>```</pre>
+    </section>
+
+    <section>
+        <h2>6. Tablas</h2>
+        <pre>| Encabezado | Título |<br>| :--- | :---: |<br>| Izquierda | Centro |</pre>
+    </section>
+
+    <section>
+        <h2>7. Otros Elementos</h2>
+        <ul>
+            <li><strong>Citas:</strong> <code>> Este es un bloque de cita.</code></li>
+            <li><strong>Línea horizontal:</strong> <code>---</code> o <code>***</code></li>
+            <li><strong>Task Lists:</strong> <code>- [x] Tarea hecha</code> | <code>- [ ] Pendiente</code></li>
+        </ul>
+    </section>
+
+</body>
+</html>
