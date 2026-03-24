@@ -1,0 +1,164 @@
+{% extends 'ex01/base.html' %}
+{% load static %}
+
+{% block title %}<title>Ex01: Display process of a static page.</title>{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="flow-header">
+        <h1>🔄 Django request → response cycle<br><span style="font-size: 1rem;">from HTTP request to rendered template (static page)</span></h1>
+        <p>How a simple template becomes an HTML page: URL resolution, view logic, template rendering, and HTTP response</p>
+    </div>
+
+    <div class="step-chain">
+        <span class="step-badge">1. Client Request</span>
+        <span>→</span>
+        <span class="step-badge">2. URL dispatcher</span>
+        <span>→</span>
+        <span class="step-badge">3. View (logic)</span>
+        <span>→</span>
+        <span class="step-badge">4. Template loading</span>
+        <span>→</span>
+        <span class="step-badge">5. HTML rendering</span>
+        <span>→</span>
+        <span class="step-badge">6. HTTP Response</span>
+    </div>
+
+    <div class="diagram-flow">
+        <div class="flow-row">
+            <div class="flow-card">
+                <h3>🌐 1. HTTP Request</h3>
+                <p>User enters URL <code style="background:#eef2f0;padding:2px 4px;">/about/</code> in browser. Browser sends GET request to Django server.</p>
+                <ul>
+                    <li>Method: GET</li>
+                    <li>Headers: User-Agent, Host, etc.</li>
+                    <li>WSGI / ASGI server receives raw request</li>
+                </ul>
+            </div>
+            <div class="arrow">→</div>
+            <div class="flow-card">
+                <h3>🗺️ 2. URLconf (urls.py)</h3>
+                <p>Django looks at <code>ROOT_URLCONF</code> and iterates through urlpatterns to find a matching path.</p>
+                <div class="code-snip" style="background:#1f2e28; margin-top: 0.5rem;">
+                    <span style="color:#9cd9b4;"># urls.py</span><br>
+                    path('about/', views.about_page, name='about')
+                </div>
+                <p>Matches <code>/about/</code> → calls <code>views.about_page</code></p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="flow-card">
+                <h3>⚙️ 3. View function</h3>
+                <p>View receives <code>HttpRequest</code> object. Contains business logic: for static page, prepares context and renders template.</p>
+                <div class="code-snip" style="background:#1f2e28;">
+                    <span style="color:#b3e6cf;">def about_page(request):</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;context = {"title": "About Us", "year": 2026}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f5bc70;">return render(request, 'about.html', context)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-row" style="margin-top: 0.8rem;">
+            <div class="flow-card">
+                <h3>📁 4. Template loader</h3>
+                <p><code>render()</code> triggers Django's template engine. It looks for <code>about.html</code> in configured <code>TEMPLATES</code> directories.</p>
+                <ul>
+                    <li>Checks app_directories loader</li>
+                    <li>Filesystem loader if defined</li>
+                    <li>Template is loaded as a <code>Template</code> object</li>
+                </ul>
+            </div>
+            <div class="arrow">→</div>
+            <div class="flow-card">
+                <h3>🎨 5. Template rendering</h3>
+                <p>Template engine processes the HTML + Django Template Language (DTL). Variables <code>&#123;&#123; title &#125;&#125;</code> are replaced with context values. Tags like <code>&#123;% block %&#125;</code> are evaluated.</p>
+                <div class="code-snip" style="background:#1f2e28; font-size:0.75rem;">
+                    &lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;<br>
+                    &lt;p&gt;Welcome to our static page, year &#123;&#123; year &#125;&#125;.&lt;/p&gt;
+                </div>
+                <p>→ Generates pure HTML string.</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="flow-card">
+                <h3>📦 6. HttpResponse object</h3>
+                <p><code>render()</code> returns an <code>HttpResponse</code> instance containing the rendered HTML. Status code = 200 OK. Headers: Content-Type: text/html; charset=utf-8.</p>
+                <ul>
+                    <li>Optional cookies, cache control</li>
+                    <li>Django middleware can process response</li>
+                </ul>
+            </div>
+        </div>
+        <div class="flow-row">
+            <div class="flow-card" style="background: #e7f3ee;">
+                <h3>📡 7. Final delivery to browser</h3>
+                <p>WSGI/ASGI server sends HTTP response back to client. Browser receives HTML, parses and displays the static web page.</p>
+                <p><strong>User sees fully styled page</strong> — the "static" page is now alive from the simple template.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="two-columns">
+        <div class="col">
+            <div class="badge-step">🔧 UNDER THE HOOD</div>
+            <h3 style="color: #185f43; margin-bottom: 0.75rem;">📥 Request middleware stack</h3>
+            <p>Before reaching the view, the request passes through <strong>middleware</strong> (security, session, authentication, etc.) defined in <code>MIDDLEWARE</code> setting.</p>
+            <div class="code-snip" style="background:#182623; margin-top: 0.7rem;">
+                # settings.py (example)<br>
+                MIDDLEWARE = [<br>
+                &nbsp;&nbsp;'django.middleware.security.SecurityMiddleware',<br>
+                &nbsp;&nbsp;'django.middleware.common.CommonMiddleware',<br>
+                &nbsp;&nbsp;...<br>
+                ]
+            </div>
+        </div>
+        <div class="col">
+            <div class="badge-step">🧩 TEMPLATE RESOLUTION</div>
+            <h3 style="color: #185f43; margin-bottom: 0.75rem;">🗂️ How Django finds the .html file</h3>
+            <p><strong>1.</strong> <code>render(request, 'about.html', context)</code><br>
+            <strong>2.</strong> Django loops over template loaders in <code>TEMPLATES['OPTIONS']['loaders']</code><br>
+            <strong>3.</strong> <code>app_directories.Loader</code> searches inside each installed app's <code>templates/</code> folder<br>
+            <strong>4.</strong> Template is compiled and rendered with context</p>
+            <div class="code-snip" style="background:#182623;">
+                project_root/<br>
+                ├── myapp/<br>
+                │   └── templates/<br>
+                │       └── about.html   ← loaded here<br>
+                └── templates/
+            </div>
+        </div>
+    </div>
+
+    <div class="vertical-detail">
+        <h3 style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">📋 Step-by-step narrative: from request to static page</h3>
+        <ol style="margin-left: 1.6rem; display: flex; flex-direction: column; gap: 0.9rem;">
+            <li><strong>Client initiates request</strong> – Browser sends an HTTP GET to a URL mapped to a template view.</li>
+            <li><strong>Django's URL resolver</strong> – Matches the path against patterns in <code>urls.py</code> and calls the associated view.</li>
+            <li><strong>View execution</strong> – The view receives <code>request</code>, defines context, and calls <code>render()</code>.</li>
+            <li><strong>Template loading &amp; rendering</strong> – The engine loads the .html file, parses template tags (<code>&#123;% ... %&#125;</code>), replaces variables (<code>&#123;&#123; var &#125;&#125;</code>), and generates HTML string.</li>
+            <li><strong>HttpResponse construction</strong> – <code>render()</code> wraps the HTML into an <code>HttpResponse</code> object.</li>
+            <li><strong>Middleware post-processing</strong> – Response middleware adds headers or performs compression.</li>
+            <li><strong>Web server returns response</strong> – Server sends HTTP response with status 200 and HTML body. Browser renders the static webpage.</li>
+        </ol>
+        <p style="margin-top: 1rem; background: #e5f2ec; padding: 0.6rem; border-radius: 0.9rem;"><strong>✨ Key insight:</strong> Even a "static" page from a template goes through the full MTV (Model-Template-View) cycle – but without database models. The view acts as the orchestrator, and the template layer produces the final markup.</p>
+    </div>
+
+    <div style="background: #eef4f0; border-radius: 1.8rem; padding: 1.2rem 1.8rem; margin: 1rem 0;">
+        <h3 style="color: #125f42; margin-bottom: 0.5rem;">⚡ Simplified sequence (pseudo-code flow)</h3>
+        <div class="code-snip" style="background: #1a2c24; font-size: 0.75rem; white-space: pre-wrap;">
+1. Browser GET /about/
+2. Django URL dispatcher → matches 'about/' → views.about
+3. about(request):
+       context = {'page': 'static_content'}
+       return render(request, 'static_page.html', context)
+4. Template engine:
+       loads static_page.html → replaces &#123;&#123; page &#125;&#125; → produces HTML string
+5. Wrap in HttpResponse(content=html_string, status=200)
+6. Send to client
+        </div>
+    </div>
+
+    <div class="footer-note">
+        ⚙️ Django's request-response lifecycle — concise explanation. Every static/dynamic page follows URL → View → Template → Response pipeline.<br>
+        💡 <strong>Remember:</strong> The "static" in static web page refers to the final HTML not being dynamically generated by client-side JS, but it is still dynamically assembled on the server from templates.
+    </div>
+</div>
+{% endblock %}   

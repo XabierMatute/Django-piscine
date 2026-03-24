@@ -1,9 +1,286 @@
 {% extends 'ex01/base.html' %}
+{% load static %}
 {% block title %}<title>Ex01: Template engine</title>{% endblock %}
 {% block style %}
     <link rel="stylesheet" href="{% static 'style2.css' %}">
 {% endblock %}
 {% block content %}
-    <h1>Template engine</h1>
-    <p>Describe aquí el funcionamiento del motor de plantillas...</p>
+    <div class="container">
+        <header class="docs-header">
+            <h1>⚙️ Django Template Engine</h1>
+            <p class="subtitle">The Django Template Language (DTL) — how variables, blocks, loops, and conditions work</p>
+        </header>
+
+        <section class="intro">
+            <h2>📖 Django's Default Template Engine</h2>
+            <p>Django's built-in template engine is a powerful yet simple text-processing system that generates HTML (or any text-based format) dynamically. It follows the <strong>MTV (Model-Template-View)</strong> pattern, where the template is responsible solely for presentation logic.</p>
+            <div class="feature-grid">
+                <div class="feature">🔧 <strong>Sandboxed execution</strong> — limited Python-like syntax for safety</div>
+                <div class="feature">⚡ <strong>Compilation & caching</strong> — templates are compiled to Python bytecode and cached</div>
+                <div class="feature">🎨 <strong>Inheritance system</strong> — DRY principle via blocks and extends</div>
+                <div class="feature">🛡️ <strong>Auto-escaping</strong> — prevents XSS attacks by default</div>
+            </div>
+            <div class="code-explanation">
+                <p>When <code>render(request, 'template.html', context)</code> is called:</p>
+                <ol>
+                    <li><strong>Loader</strong> — finds the template file in <code>TEMPLATES['DIRS']</code> or app directories</li>
+                    <li><strong>Compilation</strong> — template text is parsed into <code>Node</code> objects (abstract syntax tree)</li>
+                    <li><strong>Context</strong> — the context dictionary (or <code>Context</code> object) is passed to the compiled template</li>
+                    <li><strong>Rendering</strong> — each node renders itself using the context, producing the final string</li>
+                    <li><strong>Response</strong> — the rendered string is wrapped in an <code>HttpResponse</code></li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📦 1. Displaying Context Variables</h2>
+            <p>Variables from the view's context are displayed using double curly braces: <code>&#123;&#123; variable &#125;&#125;</code>. Django looks up the variable using dictionary, attribute, or list-index access.</p>
+            
+            <div class="example-card">
+                <h3>View context example:</h3>
+                <div class="code-block">
+                    <span class="comment"># views.py</span><br>
+                    def profile(request):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;context = {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'username': 'john_doe',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'age': 25,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'user': user_object,  <span class="comment"># object with attributes</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'items': ['apple', 'banana', 'orange']<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return render(request, 'profile.html', context)
+                </div>
+            </div>
+
+            <div class="example-card">
+                <h3>Template variable syntax:</h3>
+                <div class="code-block">
+                    <span class="comment">&lt;!-- Simple variable --&gt;</span><br>
+                    &lt;h1&gt;Hello, &#123;&#123; username &#125;&#125;!&lt;/h1&gt;<br>
+                    <br>
+                    <span class="comment">&lt;!-- Attribute access (dot notation) --&gt;</span><br>
+                    &lt;p&gt;Email: &#123;&#123; user.email &#125;&#125;&lt;/p&gt;<br>
+                    &lt;p&gt;Full name: &#123;&#123; user.get_full_name &#125;&#125;&lt;/p&gt;<br>
+                    <br>
+                    <span class="comment">&lt;!-- Dictionary key access --&gt;</span><br>
+                    &lt;p&gt;&#123;&#123; user.profile.bio &#125;&#125;&lt;/p&gt;<br>
+                    <br>
+                    <span class="comment">&lt;!-- List index access --&gt;</span><br>
+                    &lt;p&gt;First item: &#123;&#123; items.0 &#125;&#125;&lt;/p&gt;<br>
+                    &lt;p&gt;Last item: &#123;&#123; items.2 &#125;&#125;&lt;/p&gt;<br>
+                    <br>
+                    <span class="comment">&lt;!-- Filters: modify variables --&gt;</span><br>
+                    &lt;p&gt;Uppercase: &#123;&#123; username|upper &#125;&#125;&lt;/p&gt;<br>
+                    &lt;p&gt;Default value: &#123;&#123; bio|default:"No bio yet" &#125;&#125;&lt;/p&gt;<br>
+                    &lt;p&gt;Date formatting: &#123;&#123; created_at|date:"F j, Y" &#125;&#125;&lt;/p&gt;
+                </div>
+                <p><strong>💡 Note:</strong> If a variable doesn't exist, Django renders an empty string (no error).</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🧩 2. Template Blocks (Template Inheritance)</h2>
+            <p>Blocks allow template inheritance — you define a base template with <code>&#123;% block %&#125;</code> placeholders, and child templates override them. This follows the <strong>DRY (Don't Repeat Yourself)</strong> principle.</p>
+            
+            <div class="two-col">
+                <div class="example-card">
+                    <h3>📄 base.html (parent)</h3>
+                    <div class="code-block">
+                        &lt;!DOCTYPE html&gt;<br>
+                        &lt;html&gt;<br>
+                        &lt;head&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&#123;% block title %&#125;My Site&#123;% endblock %&#125;&lt;/title&gt;<br>
+                        &lt;/head&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;header&gt;Navigation Bar&lt;/header&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&#123;% block content %&#125;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Default content&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&#123;% endblock %&#125;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;footer&gt;Footer&lt;/footer&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+                </div>
+                <div class="example-card">
+                    <h3>📄 child.html (child)</h3>
+                    <div class="code-block">
+                        &#123;% extends "base.html" %&#125;<br>
+                        <br>
+                        &#123;% block title %&#125;About Us - My Site&#123;% endblock %&#125;<br>
+                        <br>
+                        &#123;% block content %&#125;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;About Page&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;This content overrides the base block.&lt;/p&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&#123;% block extra %&#125;&#123;% endblock %&#125;<br>
+                        &#123;% endblock %&#125;
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <p><strong>🔹 Block behavior:</strong> Blocks can be overridden, and you can also use <code>&#123;% block.super %&#125;</code> to include parent content.</p>
+                <p><strong>🔹 Multiple inheritance:</strong> You can nest blocks arbitrarily deep. Each block tag takes exactly one argument: the block name.</p>
+                <p><strong>🔹 Use case:</strong> Perfect for consistent layouts (headers, footers, navigation) across many pages.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔄 3. Loops: <code>&#123;% for ... in %&#125;</code></h2>
+            <p>The <code>for</code> tag loops over iterable objects (lists, querysets, dictionaries). It provides useful loop variables.</p>
+            
+            <div class="example-card">
+                <h3>Basic for loop</h3>
+                <div class="code-block">
+                    <span class="comment">&lt;!-- Loop over a list of items --&gt;</span><br>
+                    &lt;ul&gt;<br>
+                    &#123;% for item in items %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&#123;&#123; item &#125;&#125;&lt;/li&gt;<br>
+                    &#123;% empty %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;No items available.&lt;/li&gt;<br>
+                    &#123;% endfor %&#125;<br>
+                    &lt;/ul&gt;
+                </div>
+            </div>
+
+            <div class="example-card">
+                <h3>Loop variables (available inside for loop)</h3>
+                <div class="code-block">
+                    <span class="comment">&lt;!-- Access loop metadata --&gt;</span><br>
+                    &#123;% for user in user_list %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; forloop.counter &#125;&#125;. &#123;&#123; user.name &#125;&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;small&gt;(&#123;% if forloop.first %&#125;First item&#123;% endif %&#125;&#123;% if forloop.last %&#125;Last item&#123;% endif %&#125;)&lt;/small&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/p&gt;<br>
+                    &#123;% endfor %&#125;
+                </div>
+                <div class="loop-vars-grid">
+                    <div><code>forloop.counter</code> — 1-indexed iteration count</div>
+                    <div><code>forloop.counter0</code> — 0-indexed iteration count</div>
+                    <div><code>forloop.first</code> — True if first iteration</div>
+                    <div><code>forloop.last</code> — True if last iteration</div>
+                    <div><code>forloop.revcounter</code> — remaining iterations (1-indexed)</div>
+                    <div><code>forloop.parentloop</code> — parent loop context for nested loops</div>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <h3>Looping over dictionaries</h3>
+                <div class="code-block">
+                    &#123;% for key, value in person.items %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;dt&gt;&#123;&#123; key &#125;&#125;&lt;/dt&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;dd&gt;&#123;&#123; value &#125;&#125;&lt;/dd&gt;<br>
+                    &#123;% endfor %&#125;
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔀 4. Conditionals: <code>&#123;% if %&#125;</code> Control Structures</h2>
+            <p>The <code>if</code> tag evaluates conditions and renders content accordingly. Supports <code>elif</code> and <code>else</code> branches.</p>
+            
+            <div class="example-card">
+                <h3>Basic if/elif/else</h3>
+                <div class="code-block">
+                    &#123;% if user.is_authenticated %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Welcome back, &#123;&#123; user.username &#125;&#125;!&lt;/p&gt;<br>
+                    &#123;% elif guest_mode %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;You're browsing as a guest. &lt;a href="/login/"&gt;Log in?&lt;/a&gt;&lt;/p&gt;<br>
+                    &#123;% else %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Please &lt;a href="/login/"&gt;log in&lt;/a&gt; to continue.&lt;/p&gt;<br>
+                    &#123;% endif %&#125;
+                </div>
+            </div>
+
+            <div class="example-card">
+                <h3>Complex conditions (and / or / not / in)</h3>
+                <div class="code-block">
+                    <span class="comment">&lt;!-- Using 'and' and 'or' --&gt;</span><br>
+                    &#123;% if user.is_staff and user.has_perm 'can_edit' %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="/admin/"&gt;Admin Panel&lt;/a&gt;<br>
+                    &#123;% endif %&#125;<br>
+                    <br>
+                    <span class="comment">&lt;!-- Using 'in' operator --&gt;</span><br>
+                    &#123;% if 'admin' in user.groups %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Administrator privileges active&lt;/p&gt;<br>
+                    &#123;% endif %&#125;<br>
+                    <br>
+                    <span class="comment">&lt;!-- Checking emptiness --&gt;</span><br>
+                    &#123;% if not items %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="empty"&gt;Your cart is empty.&lt;/p&gt;<br>
+                    &#123;% endif %&#125;
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>📌 Available operators:</strong> <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>and</code>, <code>or</code>, <code>not</code>, <code>in</code>, <code>is</code> (for None checks).</p>
+                <p><strong>⚠️ Note:</strong> You cannot use parentheses to group conditions — keep expressions simple.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔗 Complete Example: All Features Together</h2>
+            <div class="example-card full-width">
+                <div class="code-block">
+                    <span class="comment">&lt;!-- article_detail.html --&gt;</span><br>
+                    &#123;% extends "base.html" %&#125;<br>
+                    <br>
+                    &#123;% block title %&#125;&#123;&#123; article.title &#125;&#125; | My Blog&#123;% endblock %&#125;<br>
+                    <br>
+                    &#123;% block content %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;article&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;&#123;&#123; article.title|upper &#125;&#125;&lt;/h1&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="meta"&gt;Published: &#123;&#123; article.published_at|date:"M d, Y" &#125;&#125; by &#123;&#123; article.author.username &#125;&#125;&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="content"&gt;&#123;&#123; article.body|linebreaks &#125;&#125;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;Comments (&#123;&#123; comments|length &#125;&#125;)&lt;/h3&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% if comments %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% for comment in comments %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="comment"&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;strong&gt;&#123;&#123; comment.author &#125;&#125;&lt;/strong&gt;:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;&#123; comment.text &#125;&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;small&gt;&#123;&#123; comment.created_at|timesince &#125;&#125; ago&lt;/small&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% empty %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;No comments yet. Be the first!&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% endfor %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% else %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Comments are disabled for this article.&lt;/p&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;% endif %&#125;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;/article&gt;<br>
+                    &#123;% endblock %&#125;
+                </div>
+            </div>
+        </section>
+
+        <section class="section summary">
+            <h2>📋 Summary: Django Template Engine Flow</h2>
+            <div class="summary-grid">
+                <div>
+                    <h3>Context Variable Display</h3>
+                    <p><code>&#123;&#123; var.attr &#125;&#125;</code> — dot lookup: dictionary → attribute → list index</p>
+                </div>
+                <div>
+                    <h3>Blocks</h3>
+                    <p><code>&#123;% block name %&#125;...&#123;% endblock %&#125;</code> — template inheritance placeholders</p>
+                </div>
+                <div>
+                    <h3>For Loops</h3>
+                    <p><code>&#123;% for x in iterable %&#125;...&#123;% empty %&#125;...&#123;% endfor %&#125;</code> — with loop variables</p>
+                </div>
+                <div>
+                    <h3>If Conditions</h3>
+                    <p><code>&#123;% if condition %&#125;...&#123;% elif %&#125;...&#123;% else %&#125;...&#123;% endif %&#125;</code> — supports and/or/not/in</p>
+                </div>
+            </div>
+            <div class="performance-note">
+                <p>⚡ <strong>Performance tip:</strong> Templates are compiled once and cached in production. Use <code>cached.Loader</code> for better performance.</p>
+                <p>🛡️ <strong>Security:</strong> Auto-escaping is enabled by default — use <code>&#123;% autoescape off %&#125;</code> only when necessary.</p>
+            </div>
+        </section>
+
+        <footer class="docs-footer">
+            <p>Django Template Language (DTL) — designed for designers, powerful for developers.</p>
+            <p>📚 More info: <a href="https://docs.djangoproject.com/en/stable/topics/templates/" target="_blank">Django Template Docs</a></p>
+        </footer>
+    </div>
 {% endblock %}   

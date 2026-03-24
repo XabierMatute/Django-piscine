@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ex00',
     'ex01',
+    'ex02',
+    # 'ex03',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR / "static"] 
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'   
+
+# settings.py
+import os
+LOG_FILE_PATH = os.path.join(BASE_DIR, 'ex02', 'logs.txt')   

@@ -1,0 +1,128 @@
+{% extends 'ex01/base.html' %}
+
+{% block title %}<title>Ex01: Django, framework web.</title>{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="hero">
+    <div class="badge">✦ born for perfectionists with deadlines ✦</div>
+    <h1>Django</h1>
+    <div class="tagline">The web framework for perfectionists (with deadlines)</div>
+    <div class="sub">High-level, pragmatic, and ridiculously fast — Django helps you build web applications with clean, pragmatic design.</div>
+  </div>
+
+  <div class="grid-2col">
+    <!-- INTRO CARD -->
+    <div class="card">
+      <h2><i>🐍</i> What is Django?</h2>
+      <p><strong>Django</strong> is a high-level <strong>Python web framework</strong> that enables rapid development of secure and maintainable websites. Built by experienced developers, it takes care of much of the hassle of web development — so you can focus on writing your app without reinventing the wheel.</p>
+      <p>It follows the <strong>"batteries-included"</strong> philosophy, providing everything from an ORM (Object-Relational Mapping), authentication, admin interface, forms, security features, and a templating engine out of the box. Django emphasizes reusability, pluggability, and the DRY (Don't Repeat Yourself) principle.</p>
+      <div class="feature-list">
+        <div class="feature-item">🔐 Robust security (CSRF, XSS, SQL injection)</div>
+        <div class="feature-item">🗄️ Powerful ORM with migrations</div>
+        <div class="feature-item">🛠️ Automatic admin interface</div>
+        <div class="feature-item">📦 Scalable & battle-tested</div>
+        <div class="feature-item">🌍 REST framework ready</div>
+      </div>
+      <div class="quote">
+        “Django makes it easier to build better web apps more quickly and with less code.”
+      </div>
+    </div>
+
+    <!-- HISTORY CARD (key milestones) -->
+    <div class="card">
+      <h2><i>📜</i> The Django story</h2>
+      <p>Django was born in the fall of <strong>2003</strong> at the <strong>Lawrence Journal-World</strong> newspaper in Kansas, USA. Web developers <strong>Adrian Holovaty</strong> and <strong>Simon Willison</strong> started using Python to build fast, database-driven news applications. They extracted a reusable framework from their projects, and in <strong>July 2005</strong>, the team released Django as open-source under the BSD license.</p>
+      <p>The framework was named after the jazz guitarist <strong>Django Reinhardt</strong> — a nod to the "it's a jazz thing" spirit. Since then, Django has grown into one of the most beloved web frameworks globally, powering giants like Instagram, Pinterest, Mozilla, and The Washington Post.</p>
+      <div class="timeline">
+        <h3>🗓️ Milestones that shaped Django</h3>
+        <div class="timeline-grid">
+          <div class="milestone">
+            <div class="milestone-year">2003–2004</div>
+            <div class="milestone-desc">Birth at Lawrence Journal-World. Internal framework to build news apps faster.</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-year">July 2005</div>
+            <div class="milestone-desc">First public release (0.90). Open sourced to the world.</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-year">Sept 2008</div>
+            <div class="milestone-desc">Django 1.0 arrives — stable, production-ready API.</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-year">Dec 2017</div>
+            <div class="milestone-desc">Django 2.0 introduces simplified URL routing & mobile-friendly admin.</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-year">2023–2025</div>
+            <div class="milestone-desc">Django 4.x / 5.x era — async support, improved performance, modern Python features.</div>
+          </div>
+        </div>
+      </div>
+      <p>Today, Django is maintained by the <strong>Django Software Foundation (DSF)</strong>, with a vibrant global community, regular security releases, and a long-term commitment to stability and innovation.</p>
+    </div>
+  </div>
+
+  <!-- deeper historical context + philosophy section -->
+  <div class="timeline" style="background: #ffffffcc; margin-top: 0.5rem;">
+    <h3>🧠 Why did Django become revolutionary?</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start;">
+      <div style="flex: 1.2; min-width: 200px;">
+        <p style="margin-bottom: 0.8rem;">Back in the early 2000s, web development in Python lacked a cohesive full-stack framework. PHP was dominant, but Django changed the game by offering an <strong>integrated, pragmatic stack</strong> that encouraged clean architecture (MTV pattern: Model-Template-View). Its automatic admin interface felt like magic — generating a fully functional CMS from database models.</p>
+        <p>Unlike many frameworks that force developers to stitch together libraries, Django shipped with everything needed: sessions, authentication, ORM, and testing tools. This drastically reduced decision fatigue and accelerated delivery, which resonated with startups and enterprise teams alike.</p>
+      </div>
+      <div style="flex: 0.8; background: #e5f2ec; border-radius: 1.5rem; padding: 1rem 1.2rem;">
+        <span style="font-weight: 700; color: #0f573b;">🎯 Key design principles</span>
+        <ul style="margin-top: 0.7rem; margin-left: 1.2rem; color: #1a4838;">
+          <li>DRY — Don't Repeat Yourself</li>
+          <li>Explicit is better than implicit</li>
+          <li>Loosely coupled, tightly cohesive</li>
+          <li>Consistency & pragmatism</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- quick comparison / ecosystem highlights -->
+  <div class="grid-2col" style="margin-top: 0.5rem;">
+    <div class="card" style="background: #fefcf5;">
+      <h2><i>🏛️</i> Django’s influence & legacy</h2>
+      <p>From its humble origins in a small newsroom, Django paved the way for Python’s dominance in web development. It inspired dozens of frameworks (like Flask, FastAPI borrow some concepts but Django remains the go-to for monolithic, data-intensive apps).</p>
+      <p><strong>Notable sites using Django:</strong> Instagram (the world's largest Django deployment), Spotify (backend services), Dropbox, YouTube (certain internal tools), and NASA. Its scalability is proven by handling billions of requests daily.</p>
+      <hr>
+      <p><strong>Latest Django versions (5.x)</strong> introduce asynchronous views, improved form rendering, database computed fields, and even better security defaults — staying modern while preserving backward compatibility.</p>
+    </div>
+    <div class="card" style="background: #fefcf5;">
+      <h2><i>⚙️</i> Quick facts & community</h2>
+      <p>🐍 <strong>Written in:</strong> 100% Python<br>
+      📄 <strong>License:</strong> BSD 3-clause<br>
+      🌟 <strong>GitHub stars:</strong> 80k+ (one of the most starred web frameworks)<br>
+      👥 <strong>Contributors:</strong> 2,500+ people from all over the world<br>
+      📅 <strong>Release cycle:</strong> regular LTS (Long Term Support) every 2 years</p>
+      <div class="quote" style="margin-top: 0.7rem;">
+        The Django community is known for its friendliness, thorough documentation, and the famous “Django Girls” workshops that have introduced thousands of women to programming.
+      </div>
+    </div>
+  </div>
+
+  <!-- short timeline of creators + philosophical note -->
+  <div style="background: #ddebe4; border-radius: 1.8rem; padding: 1.5rem 2rem; margin: 1rem 0 1rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center;">
+      <div>
+        <h3 style="color: #11553a; margin-bottom: 0.3rem; font-weight: 650;">🎸 The name "Django"</h3>
+        <p style="max-width: 500px;">Named after the legendary Belgian jazz guitarist Django Reinhardt. Adrian Holovaty, one of the creators, is a jazz enthusiast. The name also reflects the framework’s elegance, rhythm, and ability to improvise — yet structured and precise.</p>
+      </div>
+      <div style="font-size: 2.5rem; background: #f3f9f0; width: 70px; height: 70px; border-radius: 100px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">🎷</div>
+    </div>
+  </div>
+
+  <!-- footer & further resources -->
+  <div class="footer-note">
+    <span>📖 Django is maintained by the Django Software Foundation ·</span>
+    <span>🌐 <a href="#" style="color: #2b6e4b; text-decoration: none; font-weight: 500;">djangoproject.com</a> ·</span>
+    <span>📅 Released under BSD license · 2025 update</span>
+    <br><br>
+    <span style="font-size: 0.75rem;">“The web framework for perfectionists with deadlines” — since 2005, Django continues to empower developers to ship with confidence.</span>
+  </div>
+</div>
+{% endblock %}   
