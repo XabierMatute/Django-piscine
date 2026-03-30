@@ -3,4 +3,5 @@ python3 -m virtualenv django_venv
 source django_venv/bin/activate
 
 pip install django
-pip freeze > requirements.txt
+pip install psycopg2-binary
+psycopg2-binarypip freeze > requirements.txt

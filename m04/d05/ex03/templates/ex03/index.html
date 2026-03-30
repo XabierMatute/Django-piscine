@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    {% for col in columns %}
+      <th>{{ col.name }}</th>
+    {% endfor %}
+  </tr>
+  {% for i in numbers %}
+  <tr>
+    {% for col in columns %}
+      <td style="width:80px; height:40px; background:{{ col.shades|index:i }};"></td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>   
