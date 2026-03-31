@@ -219,4 +219,4 @@ def remove(request):
         return HttpResponse(html)
 
     except Exception as e:
-        return HttpResponse("No data available"+ str(e))
+        return HttpResponse("No data available")
